@@ -1,14 +1,22 @@
-﻿@using UrlShortener.DAL.Entities
-@{
-    ViewData["Title"] = "Home Page";
+﻿@{
+    ViewData["Title"] = "URL Shortener";
 }
 
-@if (User.IsInRole(RoleNames.Admin))
-{
-    <div>Hello boss!</div>
-}
+<script>
+    window.USER_CONTEXT = {
+        isAuthenticated: @User.Identity?.IsAuthenticated.ToString().ToLower(),
+        isAdmin: @User.IsInRole("Admin").ToString().ToLower(),
+        userName: '@User.Identity?.Name'
+    };
+</script>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div id="root">
+    <div class="text-center mt-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p>Loading application...</p>
+    </div>
 </div>
+<link rel="stylesheet" href="~/assets/index.css" />
+<script type="module" src="~/assets/index.js"></script>
