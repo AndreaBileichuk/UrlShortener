@@ -1,9 +1,9 @@
-﻿@using UrlShortener.DAL.Enums
+﻿@using UrlShortener.DAL.Entities
 @{
     ViewData["Title"] = "Home Page";
 }
 
-@if (User.IsInRole(ERoleTypes.Admin.ToString()))
+@if (User.IsInRole(RoleNames.Admin))
 {
     <div>Hello boss!</div>
 }

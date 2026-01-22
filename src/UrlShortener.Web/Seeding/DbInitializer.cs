@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using UrlShortener.DAL.Data;
 using UrlShortener.DAL.Entities;
-using UrlShortener.DAL.Enums;
 
 namespace UrlShortener.Web.Seeding;
 
@@ -11,7 +11,7 @@ public static class DbInitializer
         var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
         var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-        ERoleTypes[] roles = { ERoleTypes.User, ERoleTypes.Admin };
+        string[] roles = { RoleNames.Admin, RoleNames.User };
 
         foreach (var role in roles)
         {
@@ -38,8 +38,21 @@ public static class DbInitializer
 
             if (result.Succeeded)
             {
-                await userManager.AddToRoleAsync(adminUser, ERoleTypes.Admin.ToString());
+                await userManager.AddToRoleAsync(adminUser, RoleNames.Admin);
             }
+        }
+        
+        // Setting some default context for About page
+        var db = serviceProvider.GetRequiredService<ApplicationDbContext>();
+
+        if (!db.AboutContents.Any())
+        {
+            db.AboutContents.Add(new AboutContent()
+            {
+                Text = "Наш алгоритм використовує магію Base62 для перетворення ID бази даних у короткі рядки."
+            });
+
+            await db.SaveChangesAsync();
         }
     }
 }

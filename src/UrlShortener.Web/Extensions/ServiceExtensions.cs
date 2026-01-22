@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using UrlShortener.BLL.Services.AboutContent;
 using UrlShortener.DAL.Data;
 using UrlShortener.DAL.Entities;
 
@@ -49,6 +50,8 @@ public static class ServiceExtensions
 
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
+        services.AddScoped<IAboutContentService, AboutContentService>();
+        
         return services;
     }
 }

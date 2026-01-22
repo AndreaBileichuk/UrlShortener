@@ -22,11 +22,14 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="About">About</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav ms-auto"> @if (User.Identity != null && User.Identity.IsAuthenticated)
                     {
                     <li class="nav-item">
-                        <span class="nav-link text-dark">@User.Identity.Name!</span>
+                        <span class="nav-link text-dark">@User.Identity.Name</span>
                     </li>
                     <li class="nav-item">
                         <form asp-controller="Auth" asp-action="Logout" method="post" class="form-inline">

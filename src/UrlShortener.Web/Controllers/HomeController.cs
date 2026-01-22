@@ -1,26 +1,33 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UrlShortener.BLL.DTOs;
+using UrlShortener.BLL.Services.AboutContent;
+using UrlShortener.DAL.Entities;
 using UrlShortener.Web.Models;
 
 namespace UrlShortener.Web.Controllers;
 
-public class HomeController : Controller
+public class HomeController(IAboutContentService service) : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
-    }
-
     public IActionResult Index()
     {
         return View();
     }
-
-    public IActionResult Privacy()
+    
+    [HttpGet]
+    public async Task<IActionResult> About()
     {
-        return View();
+        var content = await service.GetAsync();
+        return View(content);
+    }
+
+    [HttpPost]
+    [Authorize(Roles = RoleNames.Admin)]
+    public async Task<IActionResult> About(string newText)
+    {
+        await service.ChangeAboutContext(new AboutContentRequest(newText));
+        return RedirectToAction("About");
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
