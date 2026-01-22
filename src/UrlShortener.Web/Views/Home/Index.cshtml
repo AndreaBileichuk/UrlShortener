@@ -1,5 +1,11 @@
-﻿@{
+﻿@using UrlShortener.DAL.Enums
+@{
     ViewData["Title"] = "Home Page";
+}
+
+@if (User.IsInRole(ERoleTypes.Admin.ToString()))
+{
+    <div>Hello boss!</div>
 }
 
 <div class="text-center">

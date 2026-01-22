@@ -10,4 +10,18 @@
       <Folder Include="ClientApp\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.10" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\UrlShortener.BLL\UrlShortener.BLL.csproj" />
+      <ProjectReference Include="..\UrlShortener.DAL\UrlShortener.DAL.csproj" />
+    </ItemGroup>
+
 </Project>

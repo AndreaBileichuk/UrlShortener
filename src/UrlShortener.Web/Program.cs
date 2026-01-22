@@ -1,8 +1,18 @@
+using UrlShortener.Web.Extensions;
+using UrlShortener.Web.Seeding;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services
+    .AddLowercaseRouting()
+    .AddDatabase(builder.Configuration)
+    .AddConfigOptions(builder.Configuration)
+    .AddIdentityServices()
+    .AddApplicationServices();
+    
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -18,10 +28,17 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+using (var scope = app.Services.CreateScope())
+{
+    await DbInitializer.InitializeAsync(scope.ServiceProvider);
+}
 
 app.Run();

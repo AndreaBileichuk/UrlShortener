@@ -22,12 +22,28 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
+                </ul>
+                <ul class="navbar-nav ms-auto"> @if (User.Identity != null && User.Identity.IsAuthenticated)
+                    {
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <span class="nav-link text-dark">@User.Identity.Name!</span>
                     </li>
+                    <li class="nav-item">
+                        <form asp-controller="Auth" asp-action="Logout" method="post" class="form-inline">
+                            <button type="submit" class="nav-link btn btn-link text-dark" style="border:none; cursor:pointer;">Logout</button>
+                        </form>
+                    </li>
+                    }
+                    else
+                    {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Auth" asp-action="Login">Login</a>
+                    </li>
+                    }
                 </ul>
             </div>
         </div>
+        
     </nav>
 </header>
 <div class="container">
@@ -38,7 +54,7 @@
 
 <footer class="border-top footer text-muted">
     <div class="container">
-        &copy; 2026 - UrlShortener.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        &copy; 2026 - UrlShortener.Web
     </div>
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
