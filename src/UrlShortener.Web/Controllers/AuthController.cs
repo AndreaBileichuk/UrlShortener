@@ -67,7 +67,7 @@ public class AuthController : Controller
         {
             var user = new ApplicationUser()
             {
-                UserName = request.Email,
+                UserName = request.Username,
                 Email = request.Email,
             };
 

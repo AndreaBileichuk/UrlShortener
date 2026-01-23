@@ -1,0 +1,61 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model UrlShortener.BLL.DTOs.UrlShortener.ShortUrlDetailsResponse
+
+@{
+    ViewData["Title"] = "URL Details";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">URL Details</h3>
+                </div>
+                <div class="card-body">
+                    
+                    <div class="mb-4">
+                        <label class="fw-bold text-secondary small text-uppercase">Original URL</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" value="@Model.OriginalUrl" readonly />
+                            <a href="@Model.OriginalUrl" target="_blank" class="btn btn-outline-secondary">Open</a>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="fw-bold text-secondary small text-uppercase">Short Code</label>
+                        <div class="p-3 bg-light rounded border d-flex justify-content-between align-items-center">
+                            <a href="~/@Model.ShortUrl" target="_blank" class="fs-4 text-decoration-none fw-bold text-success">
+                                @Model.ShortUrl
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100 border-info">
+                                <div class="card-body">
+                                    <h6 class="card-title text-info">Created By</h6>
+                                    <p class="card-text fs-5">@Model.CreatedBy</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100 border-secondary">
+                                <div class="card-body">
+                                    <h6 class="card-title text-secondary">Created Date</h6>
+                                    <p class="card-text fs-5">@Model.CreatedDate.ToLocalTime().ToString("f")</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-footer text-end">
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

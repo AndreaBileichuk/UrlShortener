@@ -26,6 +26,24 @@ public class UrlShortenerApiService(ApplicationDbContext context) : IUrlShortene
         return urls;
     }
 
+    public async Task<ShortUrlDetailsResponse?> GetDetailsAsync(int id)
+    {
+        var url = await context.ShortUrls
+            .Include(u => u.CreatedBy)
+            .FirstOrDefaultAsync(u => u.Id == id);
+
+        if (url == null) return null;
+        
+        return new ShortUrlDetailsResponse()
+        {
+            Id = url.Id,
+            OriginalUrl = url.OriginalUrl,
+            ShortUrl = url.ShortCode,
+            CreatedBy = url.CreatedBy?.UserName ?? "Unknown",
+            CreatedDate = url.CreatedDate
+        };
+    }
+
     public async Task<ShortUrlResponse> CreateAsync(ClaimsPrincipal user, CreateShortUrlRequest request)
     {
         if (await context.ShortUrls.AnyAsync(s => s.OriginalUrl == request.OriginalUrl))
@@ -72,5 +90,17 @@ public class UrlShortenerApiService(ApplicationDbContext context) : IUrlShortene
 
         context.ShortUrls.Remove(url);
         await context.SaveChangesAsync();
+    }
+
+    public async Task<string?> GetUrlByCodeAsync(string code)
+    {
+        var url = await context.ShortUrls.FirstOrDefaultAsync(s => s.ShortCode == code);
+
+        if (url is null)
+        {
+            return null;
+        }
+        
+        return url.OriginalUrl;
     }
 }

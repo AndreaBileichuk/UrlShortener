@@ -75,20 +75,26 @@ function App() {
                 <thead>
                 <tr>
                     <th>Original URL</th>
-                    <th>Short URL</th>
+                    <th>Short Code</th>
                     <th>Owner</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 {urls.map(url => (
-                    <tr key={url.id}>
+                    <tr key={url.id} onClick={() => location.href = `/urlInfo/${url.id}`}>
                         <td className="text-truncate" style={{maxWidth: '300px'}}>
-                            <a href={url.originalUrl} target="_blank">{url.originalUrl}</a>
+                            <a onClick={e => e.stopPropagation()}
+                               href={url.originalUrl}
+                               target="_blank"
+                            >
+                                {url.originalUrl}
+                            </a>
                         </td>
                         <td>
-                            <a href={`/UrlInfo/${url.id}`} className="fw-bold">
-                                {window.location.origin}/{url.shortCode}
+                            <a onClick={e => e.stopPropagation()}
+                                   href={`${location.origin}/${url.shortCode}`} className="fw-bold" target="_blank">
+                                {url.shortCode}
                             </a>
                         </td>
                         <td>{url.createdBy}</td>
@@ -96,7 +102,10 @@ function App() {
                             {(userContext.isAdmin || url.isOwner) && (
                                 <button
                                     className="btn btn-sm btn-danger"
-                                    onClick={() => handleDelete(url.id)}
+                                    onClick={async (e) => {
+                                        e.stopPropagation();
+                                        await handleDelete(url.id)
+                                    }}
                                 >
                                     Delete
                                 </button>
