@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace UrlShortener.BLL.DTOs;
+namespace UrlShortener.BLL.DTOs.Auth;
 
 public class LoginRequest
 {

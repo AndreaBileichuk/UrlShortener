@@ -244,7 +244,24 @@ namespace UrlShortener.DAL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CreatedByUserId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("OriginalUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ShortCode")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedByUserId");
 
                     b.ToTable("ShortUrls", "App");
                 });
@@ -298,6 +315,15 @@ namespace UrlShortener.DAL.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("UrlShortener.DAL.Entities.ShortUrl", b =>
+                {
+                    b.HasOne("UrlShortener.DAL.Entities.ApplicationUser", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedByUserId");
+
+                    b.Navigation("CreatedBy");
                 });
 #pragma warning restore 612, 618
         }
